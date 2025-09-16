@@ -176,13 +176,13 @@ const ProductManage = () => {
                   <td>
                     {/* <div>Le Van A</div> */}
                     <div className="inner-time">
-                      {moment(item.createdOn).format("HH:mm:ss - DD/MM/YYYY")}
+                      {moment(item.createdAt).format("HH:mm:ss - DD/MM/YYYY")}
                     </div>
                   </td>
                   <td>
                     {/* <div>Le Van A</div> */}
                     <div className="inner-time">
-                      {moment(item.updatedOn).format("HH:mm:ss - DD/MM/YYYY")}
+                      {moment(item.updatedAt).format("HH:mm:ss - DD/MM/YYYY")}
                     </div>
                   </td>
                   <td>
