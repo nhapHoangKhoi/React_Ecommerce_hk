@@ -9,7 +9,7 @@ const MenuSider = () => {
     <>
       <nav className="sider">
         <ul className="inner-menu">
-          <li>
+          {/* <li>
             <Link to={`/${variables.pathAdmin}/dashboard`}>
               <div className="inner-icon-wrapper">
                 <svg className="inner-icon" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,7 +20,7 @@ const MenuSider = () => {
                 Dashboard
               </span>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link to={`/${variables.pathAdmin}/categories`}>
               <div className="inner-icon-wrapper">

@@ -6,7 +6,6 @@ import variables from "../config/variables";
 export const loginAccount = async (dataSubmit) => {
   // const data = await post(`/${variables.pathAdmin}/account/login`, dataSubmit);
   const data = await post(`/api/v1/users/login`, dataSubmit);
-  console.log(data);
   return data;
 }
 
