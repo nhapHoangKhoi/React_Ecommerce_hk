@@ -14,7 +14,11 @@ const PrivateRoutes = () => {
   useEffect(() => {
     const verifyAuth = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/${variables.pathAdmin}/account/profile`, {
+        // const res = await fetch(`http://localhost:8080/${variables.pathAdmin}/account/profile`, {
+        //   method: "GET",
+        //   credentials: "include"
+        // });
+        const res = await fetch(`http://localhost:8080/api/v1/users/me`, {
           method: "GET",
           credentials: "include"
         });

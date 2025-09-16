@@ -15,7 +15,7 @@ const Logout = () => {
     const handleLogout = async () => {
       const dataFromBE = await logoutAccount();
 
-      if(dataFromBE.code == 200) {
+      if(dataFromBE.success == true) {
         dispatch(checkAuthen(false)); // not care about true, false
                                       // only care about changing state
         navigate(`/${variables.pathAdmin}/account/login`);

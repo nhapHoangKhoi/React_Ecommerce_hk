@@ -41,7 +41,7 @@ const Login = () => {
 
     const dataFromBE = await loginAccount(dataSubmit);
 
-    if(dataFromBE.code == 200)
+    if(dataFromBE.success == true)
     {
       // not care about true, false
       // only cares about changing state
@@ -52,8 +52,8 @@ const Login = () => {
       // then navgiate back to Home page
       // this code only navigates
       // this code does not help to reload page or else
-      // navigate(`/${variables.pathAdmin}/dashboard`);
-      navigate(`/${variables.pathAdmin}/categories`);
+      navigate(`/${variables.pathAdmin}/dashboard`);
+      // navigate(`/${variables.pathAdmin}/categories`);
     }
     else {
       alert("Email or password incorrect!");
