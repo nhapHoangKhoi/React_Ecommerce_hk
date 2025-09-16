@@ -148,7 +148,6 @@ const ProductManage = () => {
                 <th>Thumbnail</th>
                 <th>Price</th>
                 <th>Stock</th>
-                <th className="inner-center">Position</th>
                 <th>Created on</th>
                 <th>Last updated on</th>
                 <th>Actions</th>
@@ -163,16 +162,17 @@ const ProductManage = () => {
                   <td>{item.name}</td>
                   <td>
                     <img
-                      src={item.images && item.images.length > 0 ? item.images[0] : null}
+                      src={item.productImages && item.productImages.length > 0 
+                        ? item.productImages[0].imageUrl 
+                        : null}
                       alt={item.name}
                       className="inner-avatar"
                     />
                   </td>
                   <td>
-                    {item.price.toLocaleString("vi-VN")}đ
+                    {item.price.toLocaleString("en-US")}$
                   </td>
                   <td>{item.stock}</td>
-                  <td className="inner-center">{item.position}</td>
                   <td>
                     {/* <div>Le Van A</div> */}
                     <div className="inner-time">
