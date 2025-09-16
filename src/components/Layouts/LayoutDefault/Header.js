@@ -6,16 +6,16 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [categoryTree, setCategoryTree] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/client/categories") // adjust base URL as needed
-      .then(res => res.json())
-      .then(data => {
-        if (data.code === 200) {
-          setCategoryTree(data.data);
-        }
-      })
-      .catch(err => console.error("Fetch error:", err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8080/api/client/categories") // adjust base URL as needed
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       if (data.code === 200) {
+  //         setCategoryTree(data.data);
+  //       }
+  //     })
+  //     .catch(err => console.error("Fetch error:", err));
+  // }, []);
 
   // console.log(categoryTree);
 

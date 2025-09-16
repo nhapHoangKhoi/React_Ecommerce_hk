@@ -20,28 +20,29 @@ const Home = () => {
   const params = new URLSearchParams(location.search);
   const pageFromURL = parseInt(params.get("page") || "1");
 
-  useEffect(() => {
-    const fetchFeaturedProducts = async () => {
-      const [featuredRes] = await Promise.all([
-        fetch("http://localhost:8080/api/client/products/featured"),
-      ]);
+  // useEffect(() => {
+  //   const fetchFeaturedProducts = async () => {
+  //     const [featuredRes] = await Promise.all([
+  //       // fetch("http://localhost:8080/api/client/products/featured"),
+  //     ]);
 
-      if (!featuredRes.ok) {
-        throw new Error("Failed to fetch products");
-      }
+  //     if (!featuredRes.ok) {
+  //       throw new Error("Failed to fetch products");
+  //     }
 
-      const featuredData = await featuredRes.json();
-      setFeaturedProducts(featuredData.data);
-    };
+  //     const featuredData = await featuredRes.json();
+  //     setFeaturedProducts(featuredData.data);
+  //   };
 
-    fetchFeaturedProducts();
-  }, []);
+  //   fetchFeaturedProducts();
+  // }, []);
 
   useEffect(() => {
     const fetchAPI = async () => {
       const data = await getAllProductsClient("", pageFromURL);
-      if(data.code == 200) {
-        setListProducts(data.data.data);
+      // console.log(data);
+      if(data.success == true) {
+        setListProducts(data.data.content);
         setTotalPages(data.data.totalPages);
       }
     }
