@@ -33,7 +33,7 @@ const CategoryEdit = () => {
   // ----- Get detail category ----- //
   const fetchCategory = async () => {
     const dataFromBE = await getCategoryById(params.id);
-    if (dataFromBE.code === 200) {
+    if (dataFromBE.success === true) {
       setCategoryDetail(dataFromBE.data);
       setSelectedParent(dataFromBE.data.parent || "");
     }
@@ -46,16 +46,16 @@ const CategoryEdit = () => {
 
 
   // ----- Get Categories Tree ----- //
-  const fetchCategoryTree = async () => {
-    const dataFromBE = await getCategoriesTree();
-    if (dataFromBE.code === 200) {
-      setCategoryTree(dataFromBE.data);
-    }
-  };
+  // const fetchCategoryTree = async () => {
+  //   const dataFromBE = await getCategoriesTree();
+  //   if (dataFromBE.code === 200) {
+  //     setCategoryTree(dataFromBE.data);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchCategoryTree();
-  }, []);
+  // useEffect(() => {
+  //   fetchCategoryTree();
+  // }, []);
   // ----- End get Categories Tree ----- //
 
 
@@ -64,13 +64,14 @@ const CategoryEdit = () => {
     event.preventDefault();
 
     const name = event.target.name.value;
-    const parent = event.target.parent.value;
-    const position = event.target.position.value;
+    // const parent = event.target.parent.value;
+    // const position = event.target.position.value;
+    const description = event.target.description.value;
 
-    let description = "";
-    if(editorRef.current) {
-      description = editorRef.current.getContent();
-    }
+    // let description = "";
+    // if(editorRef.current) {
+    //   description = editorRef.current.getContent();
+    // }
 
     // console.log(name);
     // console.log(parent);
@@ -80,8 +81,8 @@ const CategoryEdit = () => {
 
     const dataSubmit = {
       name: name,
-      parent: parent,
-      position: position,
+      // parent: parent,
+      // position: position,
       description: description
     };
 
@@ -120,7 +121,7 @@ const CategoryEdit = () => {
 
           const dataFromBE = await editCategory(params.id, dataSubmit);
 
-          if(dataFromBE.code == 200) {
+          if(dataFromBE.success == true) {
             await Swal.fire({
               title: "Update successfully!",
               text: "Your file has been saved.",
@@ -128,7 +129,7 @@ const CategoryEdit = () => {
             })
 
             fetchCategory(); // refresh updated data
-            fetchCategoryTree(); // refresh tree
+            // fetchCategoryTree(); // refresh tree
           }
         }
       });
@@ -178,7 +179,7 @@ const CategoryEdit = () => {
               />
             </div>
 
-            {categoryTree && (
+            {/* {categoryTree && (
               <div className="inner-group">
                 <label htmlFor="parent" className="inner-label">Parent Category</label>
                 <select 
@@ -191,9 +192,9 @@ const CategoryEdit = () => {
                   {displayOptionsTree(categoryTree)}
                 </select>
               </div>
-            )}
+            )} */}
 
-            <div className="inner-group">
+            {/* <div className="inner-group">
               <label htmlFor="position" className="inner-label">Position</label>
               <input 
                 type="number" 
@@ -201,37 +202,17 @@ const CategoryEdit = () => {
                 name="position" 
                 defaultValue={categoryDetail.position}
               />
-            </div>
+            </div> */}
 
-            <div className="inner-group inner-two-columns">
-              <label htmlFor="description" className="inner-label">
-                Description
+            <div className="inner-group">
+              <label htmlFor="name" className="inner-label">
+                Short description
               </label>
-              <Editor
-                id="description"
-                name="description"
-                apiKey={process.env.REACT_APP_MCE_API_KEY}
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue={categoryDetail.description}
-                init={{
-                  selector: '#description',
-                  height: 300,
-                  branding: false,
-                  plugins: [
-                    'charmap', 'codesample', 'emoticons', 'help',
-                    'image', 'link', 'lists', 'advlist', 'media',
-                    'preview', 'searchreplace', 'table', 'wordcount',
-                  ],
-                  toolbar:
-                    'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
-                    'outdent indent | charmap | codesample | emoticons | image | link | ' +
-                    'numlist bullist | media | preview | searchreplace | help',
-                  
-                  // images_upload_url: '/admin/upload/image', // Backend API
-                  // automatic_uploads: true,
-                  // file_picker_types: 'image',
-                  // image_caption: true,
-                }}
+              <input 
+                type="text" 
+                id="description" 
+                name="description" 
+                defaultValue={categoryDetail.description}
               />
             </div>
 

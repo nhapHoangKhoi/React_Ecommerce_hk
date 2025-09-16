@@ -47,3 +47,17 @@ export const patch = async (path, dataSubmit) => {
   const data = await response.json();
   return data;
 }
+
+export const put = async (path, dataSubmit) => {
+  const response = await fetch((SERVER + path), {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include", // allow cookies to be set and sent with requests
+    body: JSON.stringify(dataSubmit)
+  });
+
+  const data = await response.json();
+  return data;
+}

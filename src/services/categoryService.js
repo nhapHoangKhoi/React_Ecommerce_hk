@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { get, del, patch, post } from "../utils/requests";
+import { get, del, patch, post, put } from "../utils/requests";
 
 import variables from "../config/variables";
 
@@ -26,7 +26,8 @@ export const getAllCategories = async (keyword = "", page = 1) => {
 }
 
 export const getCategoryById = async (categoryId) => {
-  const data = await get(`/${variables.pathAdmin}/categories/${categoryId}`);
+  // const data = await get(`/${variables.pathAdmin}/categories/${categoryId}`);
+  const data = await get(`/api/v1/categories/${categoryId}`);
   return data;
 }
 
@@ -41,7 +42,8 @@ export const createCategory = async (dataSubmit) => {
 }
 
 export const editCategory = async (itemId, dataSubmit) => {
-  const data = await patch(`/${variables.pathAdmin}/categories/${itemId}`, dataSubmit);
+  // const data = await patch(`/${variables.pathAdmin}/categories/${itemId}`, dataSubmit);
+  const data = await put(`/api/v1/categories/${itemId}`, dataSubmit);
   return data;
 }
 
