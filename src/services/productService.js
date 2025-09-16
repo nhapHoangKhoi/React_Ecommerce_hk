@@ -20,7 +20,8 @@ export const getAllProducts = async (keyword = "", page = 1) => {
 
 
   // const data = await get(`/${variables.pathAdmin}/products`);
-  const data = await get(`${pathName}${queryPart}`);
+  // const data = await get(`${pathName}${queryPart}`);
+  const data = await get(`/api/v1/products${queryPart}`);
   return data;
 }
 

@@ -36,12 +36,11 @@ const ProductManage = () => {
   // used for: reload page
   const fetchAPI = async () => {
     const dataFromBE = await getAllProducts(keywordFromURL, pageFromURL);
-    
-    if(dataFromBE.code = 200) {
-      setlistProducts(dataFromBE.data.data); // do not sort here, sort in BE
+    if(dataFromBE.success = true) {
+      setlistProducts(dataFromBE.data.content); // do not sort here, sort in BE
       setTotalPages(dataFromBE.data.totalPages);
-      setTotalRecords(dataFromBE.data.totalRecords);
-      setSkip(dataFromBE.data.skip);
+      setTotalRecords(dataFromBE.data.totalElements);
+      setSkip(dataFromBE.data.pageable.offset);
     }
   }
   
