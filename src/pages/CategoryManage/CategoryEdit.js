@@ -205,7 +205,7 @@ const CategoryEdit = () => {
             </div> */}
 
             <div className="inner-group">
-              <label htmlFor="name" className="inner-label">
+              <label htmlFor="description" className="inner-label">
                 Short description
               </label>
               <input 

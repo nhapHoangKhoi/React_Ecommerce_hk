@@ -37,7 +37,8 @@ export const getCategoriesTree = async () => {
 }
 
 export const createCategory = async (dataSubmit) => {
-  const data = await post(`/${variables.pathAdmin}/categories`, dataSubmit);
+  // const data = await post(`/${variables.pathAdmin}/categories`, dataSubmit);
+  const data = await post(`/api/v1/categories`, dataSubmit);
   return data;
 }
 
