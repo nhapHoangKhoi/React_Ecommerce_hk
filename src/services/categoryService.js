@@ -20,7 +20,8 @@ export const getAllCategories = async (keyword = "", page = 1) => {
 
 
   // const data = await get(`/${variables.pathAdmin}/categories`);
-  const data = await get(`${pathName}${queryPart}`);
+  // const data = await get(`${pathName}${queryPart}`);
+  const data = await get(`/api/v1/categories${queryPart}`);
   return data;
 }
 

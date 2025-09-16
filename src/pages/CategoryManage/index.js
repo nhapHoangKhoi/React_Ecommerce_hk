@@ -37,11 +37,11 @@ const CategoryManage = () => {
   const fetchAPI = async () => {
     const dataFromBE = await getAllCategories(keywordFromURL, pageFromURL);
     
-    if(dataFromBE.code = 200) {
-      setListCategories(dataFromBE.data.data); // do not sort here, sort in BE
+    if(dataFromBE.success = true) {
+      setListCategories(dataFromBE.data.content); // do not sort here, sort in BE
       setTotalPages(dataFromBE.data.totalPages);
-      setTotalRecords(dataFromBE.data.totalRecords);
-      setSkip(dataFromBE.data.skip);
+      setTotalRecords(dataFromBE.data.totalElements);
+      setSkip(dataFromBE.data.pageable.offset);
     }
   }
   
@@ -145,7 +145,7 @@ const CategoryManage = () => {
                   <input type="checkbox" className="inner-check" name="check-all" />
                 </th>
                 <th>Category name</th>
-                <th className="inner-center">Position</th>
+                <th>Description</th>
                 <th>Created on</th>
                 <th>Last updated on</th>
                 <th>Actions</th>
@@ -158,7 +158,7 @@ const CategoryManage = () => {
                     <input type="checkbox" className="inner-check" data-id={item.id} />
                   </td>
                   <td>{item.name}</td>
-                  <td className="inner-center">{item.position}</td>
+                  <td>{item.description}</td>
                   <td>
                     {/* <div>Le Van A</div> */}
                     <div className="inner-time">
