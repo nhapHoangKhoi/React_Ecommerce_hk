@@ -81,12 +81,18 @@ const ProductDetails = () => {
             <div className="box-tour-detail">
               <div className="inner-title-main">{product.name}</div>
               <div className="inner-product">
-                <div className="inner-image">
-                  <img
-                    src={product.productImages[0].imageUrl}
-                    alt={product.name}
-                  />
-                </div>
+                {product.productImages?.length > 0 ? (
+                  <div className="inner-image">
+                    <img
+                      src={product.productImages[0].imageUrl}
+                      alt={product.name}
+                    />
+                  </div>
+                ) : (
+                  <div className="inner-image">
+                    <img src={null} alt={product.name} />
+                  </div>
+                )}
                 <div className="inner-info">
                   <div className="inner-rating">
                     <div className="inner-stars">
