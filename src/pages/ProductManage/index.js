@@ -20,7 +20,7 @@ const ProductManage = () => {
 
   // ----- Search ----- //
   const params = new URLSearchParams(location.search);
-  const keywordFromURL = params.get("keyword") || "";
+  const keywordFromURL = params.get("productName") || "";
   // ----- End search ----- //
 
   // ----- Pagination ----- //
@@ -57,10 +57,10 @@ const ProductManage = () => {
       const newParams = new URLSearchParams(location.search);
   
       if (value) {
-        newParams.set("keyword", value);
+        newParams.set("productName", value);
       } 
       else {
-        newParams.delete("keyword");
+        newParams.delete("productName");
       }
   
       navigate(`${location.pathname}?${newParams.toString()}`, { replace: true });
