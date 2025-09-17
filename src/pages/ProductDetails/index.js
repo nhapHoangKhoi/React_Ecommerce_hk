@@ -43,28 +43,21 @@ const ProductDetails = () => {
           {/* LEFT SIDE - Images */}
           <div className="inner-left">
             <div className="box-images">
-              {/* Main thumbnail */}
-              {product.productImages?.length > 0 ? (
-                <div className="inner-image">
-                  <img
-                    src={product.productImages[0].imageUrl}
-                    alt={product.name}
-                  />
-                </div>
-              ) : (
-                <div className="inner-image">
-                  <img src={null} alt={product.name} />
-                </div>
-              )}
-
-              {/* images */}
-              {/* <div className="inner-thumbs">
-                {product.productImages?.map((img) => (
-                  <div key={img.id} className="inner-thumb">
-                    <img src={img.imageUrl} alt={product.name} />
+              <div className="inner-images-main">
+                {/* Main thumbnail */}
+                {product.productImages?.length > 0 ? (
+                  <div className="inner-image">
+                    <img
+                      src={product.productImages[0].imageUrl}
+                      alt={product.name}
+                    />
                   </div>
-                ))}
-              </div> */}
+                ) : (
+                  <div className="inner-image">
+                    <img src={null} alt={product.name} />
+                  </div>
+                )}
+              </div>
             </div>
             <div className="box-tour-info">
               <div className="inner-title">Product Description</div>
