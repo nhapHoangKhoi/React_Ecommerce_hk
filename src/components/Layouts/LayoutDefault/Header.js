@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import CategoryMenu from "../../CategoryMenu/CategoryMenu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../../services/categoryService";
+import { logoutAccount } from "../../../services/accountAdminService";
 
 const Header = () => {
   const [categoryTree, setCategoryTree] = useState([]);
   const [theUser, setTheUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -40,7 +42,14 @@ const Header = () => {
     fetchLoggedInUser();
   }, []);
 
-  console.log(theUser);
+  const handleLogout = async () => {
+    const dataFromBE = await logoutAccount();
+
+    if(dataFromBE.success == true) {
+      setTheUser(null);
+      navigate("/");
+    }
+  };
 
   return (
     <>
@@ -85,20 +94,13 @@ const Header = () => {
                 {theUser ? (
                   <>
                     <li>
-                      <button
-                        // onClick={handleLogout}
-                        className=""
-                      >
+                      <Link onClick={handleLogout}>
                         Logout
-                      </button>
+                      </Link>
                     </li>
                     <li>
-                      <Link
-                        to="/user/profile"
-                        className=""
-                      >
-                        {/* Hello, {theUser.fullName} */}
-                        Hello, 
+                      <Link style={{ cursor: "default" }}>
+                        Hello, {theUser.email}
                       </Link>
                     </li>
                   </>

@@ -102,7 +102,7 @@ const MenuSider = () => {
                 </svg>
               </div>
               <span className="inner-label">
-                Đăng xuất
+                Logout
               </span>
             </Link>
           </li>
