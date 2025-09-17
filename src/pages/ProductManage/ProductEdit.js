@@ -251,6 +251,12 @@ const ProductEdit = () => {
           errorMessage: 'Please enter product name!'
         }
       ])
+      .addField('#parent', [
+        {
+          rule: 'required',
+          errorMessage: 'Please choose a category!'
+        }
+      ])
       .addField('#price', [
         {
           rule: 'minNumber',
