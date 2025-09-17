@@ -30,7 +30,7 @@ export const routes = [
         element: <Home />
       },
       {
-        path: `categories/:slug`,
+        path: `categories/:categoryId`,
         element: <ProductsByCategory />
       }
     ]

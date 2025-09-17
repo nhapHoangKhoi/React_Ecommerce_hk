@@ -2,22 +2,21 @@ import { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import CategoryMenu from "../../CategoryMenu/CategoryMenu";
 import { Link } from "react-router-dom";
+import { getAllCategories } from "../../../services/categoryService";
 
 const Header = () => {
   const [categoryTree, setCategoryTree] = useState([]);
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/api/client/categories") // adjust base URL as needed
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       if (data.code === 200) {
-  //         setCategoryTree(data.data);
-  //       }
-  //     })
-  //     .catch(err => console.error("Fetch error:", err));
-  // }, []);
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const dataFromBE = await getAllCategories();
+      if(dataFromBE.success === true) {
+        setCategoryTree(dataFromBE.data.content);
+      }
+    }
 
-  // console.log(categoryTree);
+    fetchAPI();
+  }, []);
 
   return (
     <>
@@ -55,7 +54,7 @@ const Header = () => {
               <ul>
                 <li>
                   <Link to="/" className="active">
-                    Trang Chủ
+                    Home
                   </Link>
                 </li>
                 <CategoryMenu categories={categoryTree} />
