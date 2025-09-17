@@ -6,6 +6,7 @@ import { getAllCategories } from "../../../services/categoryService";
 
 const Header = () => {
   const [categoryTree, setCategoryTree] = useState([]);
+  const [theUser, setTheUser] = useState(null);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -17,6 +18,29 @@ const Header = () => {
 
     fetchAPI();
   }, []);
+
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/users/me", {
+          method: "GET",
+          credentials: "include"
+        });
+        const data = await response.json();
+
+        if(data.success === true) {
+          setTheUser(data.data);
+        }
+      } 
+      catch (error) {
+        setTheUser(null);
+      }
+    };
+
+    fetchLoggedInUser();
+  }, []);
+
+  console.log(theUser);
 
   return (
     <>
@@ -58,6 +82,36 @@ const Header = () => {
                   </Link>
                 </li>
                 <CategoryMenu categories={categoryTree} />
+                {theUser ? (
+                  <>
+                    <li>
+                      <button
+                        // onClick={handleLogout}
+                        className=""
+                      >
+                        Logout
+                      </button>
+                    </li>
+                    <li>
+                      <Link
+                        to="/user/profile"
+                        className=""
+                      >
+                        {/* Hello, {theUser.fullName} */}
+                        Hello, 
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/login">Login</Link>
+                    </li>
+                    <li>
+                      <Link to="/user/register">Sign up</Link>
+                    </li>
+                  </>
+                )}
               </ul>
               <div className="inner-overlay"></div>
             </nav>

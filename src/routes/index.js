@@ -18,7 +18,7 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import Register from "../pages/Register";
 import ProductDetails from "../pages/ProductDetails";
-
+import LoginCustomer from "../pages/LoginCustomer";
 
 export const routes = [
   // --- Public
@@ -37,6 +37,16 @@ export const routes = [
       {
         path: `products/detail/:id`,
         element: <ProductDetails />
+      },
+      {
+        path: `login`,
+        element: <LayoutAccount />,
+        children: [
+          {
+            path: "",
+            element: <LoginCustomer />
+          },
+        ]
       }
     ]
   },
