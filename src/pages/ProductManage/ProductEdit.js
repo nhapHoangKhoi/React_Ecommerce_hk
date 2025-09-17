@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { displayOptionsTree } from "../../helpers/categoryHierarchy.helper";
-import { getCategoriesTree } from "../../services/categoryService";
+import { getAllCategories, getCategoriesTree } from "../../services/categoryService";
 
 // --- Tinymce
 import React, { useEffect, useRef, useState } from 'react';
@@ -48,16 +48,24 @@ const ProductEdit = () => {
 
   
   // ----- Get Categories Tree ----- //
-  const fetchCategoryTree = async () => {
-    const dataFromBE = await getCategoriesTree();
+  // const fetchCategoryTree = async () => {
+  //   const dataFromBE = await getCategoriesTree();
 
-    if(dataFromBE.code === 200) {
-      setCategoryTree(dataFromBE.data);
+  //   if(dataFromBE.code === 200) {
+  //     setCategoryTree(dataFromBE.data);
+  //   }
+  // };
+  const fetchCategories = async () => {
+    const dataFromBE = await getAllCategories();
+
+    if(dataFromBE.success === true) {
+      setCategoryTree(dataFromBE.data.content);
     }
   };
 
   useEffect(() => {
-    fetchCategoryTree();
+    // fetchCategoryTree();
+    fetchCategories();
   }, []);
   // ----- End get Categories Tree ----- //
 
@@ -65,20 +73,21 @@ const ProductEdit = () => {
   // ----- Fetch product detail ----- //
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await fetch(`http://localhost:8080/admin333/products/${id}`, {
+      const response = await fetch(`http://localhost:8080/api/v1/products/${id}`, {
         credentials: "include"
       });
       const data = await response.json();
 
-      if(data.code === 200) 
+      if(data.success === true) 
       {
         setProductDetail(data.data);
 
-        setDefaultImageUrls(data.data.images || []);
+        setDefaultImageUrls(data.data.productImages || []);
 
-        if(data.data.images) {
+        if(data.data.productImages) {
           setFiles(
-            data.data.images.map((url) => {
+            data.data.productImages.map((object) => {
+              const url = object.imageUrl;
               return {
                 source: url,
                 options: {
@@ -89,7 +98,8 @@ const ProductEdit = () => {
           );
         }
 
-        setSelectedCategory(data.data.categoryIds?.[0] || ""); 
+        
+        setSelectedCategory(data.data.category?.id || ""); 
       }
     };
     
@@ -293,16 +303,6 @@ const ProductEdit = () => {
                 </select>
               </div>
             )}
-
-            <div className="inner-group">
-              <label htmlFor="position" className="inner-label">Position</label>
-              <input 
-                type="number" 
-                id="position" 
-                name="position" 
-                defaultValue={productDetail.position}
-              />
-            </div>
 
             <div className="inner-group">
               <label htmlFor="price" className="inner-label">Price</label>
