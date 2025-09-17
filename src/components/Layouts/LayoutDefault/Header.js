@@ -58,13 +58,13 @@ const Header = () => {
         <div className="container">
           <div className="inner-wrap">
             <div className="inner-item">
-              <i className="fa-solid fa-phone"></i> 0903.727.691
+              <i className="fa-solid fa-phone"></i> 0987.654.321
             </div>
             <div className="inner-item">
-              <i className="fa-solid fa-envelope"></i> hoangkhoi@contact.com
+              <i className="fa-solid fa-envelope"></i> shop@contact.com
             </div>
             <div className="inner-item">
-              <i className="fa-solid fa-building"></i> Số 123, đường ABC, thành phố XYZ
+              <i className="fa-solid fa-building"></i> 123 ABC Street
             </div>
           </div>
         </div>
