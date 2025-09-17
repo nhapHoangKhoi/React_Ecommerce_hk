@@ -547,7 +547,7 @@ body .layout-default
   
   display: block;
   padding: 8px 22px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .layout-default .header .inner-menu > ul > li > ul > li > a.active,
