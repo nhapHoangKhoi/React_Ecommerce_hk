@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
+import { FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { id } = useParams(); // get product id from URL
@@ -36,6 +37,25 @@ const ProductDetails = () => {
   if(!product) {
     return <div>Product not found!</div>;
   }
+
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating); // whole stars
+    const hasHalfStar = rating % 1 >= 0.5; // half star?
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<FaStar key={`full-${i}`} />);
+    }
+    if (hasHalfStar) {
+      stars.push(<FaStarHalfAlt key="half" />);
+    }
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<FaRegStar key={`empty-${i}`} />);
+    }
+
+    return stars;
+  };
 
   return (
     <div className="section-ten">
@@ -96,11 +116,12 @@ const ProductDetails = () => {
                 <div className="inner-info">
                   <div className="inner-rating">
                     <div className="inner-stars">
+                      {/* <FaStar />
                       <FaStar />
                       <FaStar />
                       <FaStar />
-                      <FaStar />
-                      <FaStar />
+                      <FaStar /> */}
+                      {renderStars(product.avgRating)}
                     </div>
                   </div>
                   <div className="inner-number">
