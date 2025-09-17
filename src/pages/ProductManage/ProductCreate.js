@@ -82,7 +82,7 @@ const ProductCreate = () => {
       categoryId: parent,
       price: price,
       stock: stock,
-      isFeatured: isFeatured,
+      featured: isFeatured,
       status: status,
       description: description
     };

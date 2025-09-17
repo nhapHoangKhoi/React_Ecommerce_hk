@@ -40,6 +40,7 @@ const ProductEdit = () => {
   const [categoryTree, setCategoryTree] = useState([]);
   const [productDetail, setProductDetail] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [defaultIsFeatured, setDefaultIsFeatured] = useState(false);
 
   // --- FilePond
   const [files, setFiles] = useState([]);
@@ -81,6 +82,8 @@ const ProductEdit = () => {
       if(data.success === true) 
       {
         setProductDetail(data.data);
+        
+        setDefaultIsFeatured(data.data.featured);
 
         setDefaultImageUrls(data.data.productImages || []);
 
@@ -114,20 +117,30 @@ const ProductEdit = () => {
 
     const name = event.target.name.value;
     const parent = event.target.parent.value;
-    const position = event.target.position.value;
     const price = event.target.price.value;
     const stock = event.target.stock.value;
     const isFeatured = event.target.isFeatured.checked;
+    const status = event.target.status.value;
 
     let description = "";
     if (editorRef.current) {
       description = editorRef.current.getContent();
     }
 
+    const dataSubmit = {
+      name: name,
+      categoryId: parent,
+      price: price,
+      stock: stock,
+      featured: isFeatured,
+      status: status,
+      description: description
+    };
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("categoryIds", parent);
-    formData.append("position", position);
+    // formData.append("position", position);
     formData.append("price", price);
     formData.append("stock", stock);
     formData.append("isFeatured", isFeatured);
@@ -196,15 +209,18 @@ const ProductEdit = () => {
           }
         });
 
-        const response = await fetch(`http://localhost:8080/admin333/products/${id}`, {
-          method: "PATCH",
-          body: formData,
-          credentials: "include"
+        const response = await fetch(`http://localhost:8080/api/v1/products/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "include", // allow cookies to be set and sent with requests
+          body: JSON.stringify(dataSubmit)
         });
 
         const dataFromBE = await response.json();
 
-        if (dataFromBE.code === 200) {
+        if(dataFromBE.success == true) {
           await Swal.fire({
             title: "Updated successfully!",
             text: "Product has been updated.",
@@ -291,7 +307,9 @@ const ProductEdit = () => {
 
             {categoryTree && (
               <div className="inner-group">
-                <label htmlFor="parent" className="inner-label">Category</label>
+                <label htmlFor="parent" className="inner-label">
+                  Category <span className="field-required">*</span>
+                </label>
                 <select 
                   id="parent" 
                   name="parent"
@@ -305,7 +323,9 @@ const ProductEdit = () => {
             )}
 
             <div className="inner-group">
-              <label htmlFor="price" className="inner-label">Price</label>
+              <label htmlFor="price" className="inner-label">
+                Price <span className="field-required">*</span>
+              </label>
               <input 
                 type="number" 
                 id="price" 
@@ -344,8 +364,38 @@ const ProductEdit = () => {
                 className="form-check-input"
                 id="isFeatured"
                 name="isFeatured"
-                defaultChecked={productDetail.isFeatured}
+                checked={defaultIsFeatured}
+                onChange={(e) => setDefaultIsFeatured(e.target.checked)}
               />
+            </div>
+
+            <div>
+              <div className="inner-two-columns" style={{ marginBottom: "5px" }}>
+                Status <span className="field-required">*</span>
+              </div>
+              <div className="inner-group">
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <input 
+                    type="radio" 
+                    name="status" 
+                    value="ACTIVE" 
+                    id="option_active" 
+                    defaultChecked 
+                    style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
+                  />
+                  <label htmlFor="option_active" className="inner-label" style={{ margin: "0" }}>Active</label>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", marginTop: "3px" }}>
+                  <input 
+                    type="radio" 
+                    name="status" 
+                    value="INACTIVE" 
+                    id="option_inactive" 
+                    style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
+                  /> 
+                  <label htmlFor="option_inactive" className="inner-label" style={{ margin: "0" }}>Inactive</label>
+                </div>
+              </div>
             </div>
 
             <div className="inner-group inner-two-columns">
