@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { FaStar } from "react-icons/fa6";
 
 const ProductDetails = () => {
   const { id } = useParams(); // get product id from URL
@@ -28,11 +29,11 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) {
+  if(loading) {
     return <div>Loading...</div>;
   }
 
-  if (!product) {
+  if(!product) {
     return <div>Product not found!</div>;
   }
 
@@ -40,7 +41,7 @@ const ProductDetails = () => {
     <div className="section-ten">
       <div className="container">
         <div className="inner-wrap">
-          {/* LEFT SIDE - Images */}
+          {/* LEFT SIDE */}
           <div className="inner-left">
             <div className="box-images">
               <div className="inner-images-main">
@@ -75,17 +76,41 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* RIGHT SIDE - Info */}
-          <div className="box-tour-info">
-            <h2 className="inner-title">{product.name}</h2>
-            <div className="inner-category">
-              Category: <strong>{product.category?.name}</strong>
-            </div>
-            <div className="inner-price">
-              Price: <strong>{product.price.toLocaleString("en-US")}$</strong>
-            </div>
-            <div className="inner-stock">
-              Quantity: <strong>{product.stock}</strong>
+          {/* RIGHT SIDE */}
+          <div className="inner-right">
+            <div className="box-tour-detail">
+              <div className="inner-title-main">{product.name}</div>
+              <div className="inner-product">
+                <div className="inner-image">
+                  <img
+                    src={product.productImages[0].imageUrl}
+                    alt={product.name}
+                  />
+                </div>
+                <div className="inner-info">
+                  <div className="inner-rating">
+                    <div className="inner-stars">
+                      <FaStar />
+                      <FaStar />
+                      <FaStar />
+                      <FaStar />
+                      <FaStar />
+                    </div>
+                  </div>
+                  <div className="inner-number">
+                    <span>500</span> ratings
+                  </div>
+                </div>
+              </div>
+              <div className="inner-category">
+                Category: <strong>{product.category?.name}</strong>
+              </div>
+              <div className="inner-price">
+                Price: <strong>{product.price.toLocaleString("en-US")}$</strong>
+              </div>
+              <div className="inner-stock">
+                Quantity: <strong>{product.stock}</strong>
+              </div>
             </div>
           </div>
         </div>
