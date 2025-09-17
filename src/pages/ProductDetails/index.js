@@ -5,6 +5,7 @@ const ProductDetails = () => {
   const { id } = useParams(); // get product id from URL
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -67,11 +68,16 @@ const ProductDetails = () => {
             </div>
             <div className="box-tour-info">
               <div className="inner-title">Product Description</div>
-              <div className="inner-content">
+              <div className={`inner-content ${showAll ? "expanded" : "collapsed"}`}>
                 <div dangerouslySetInnerHTML={{ __html: product.description }} />
               </div>
               <div className="inner-read-more">
-                <button className="button button-outline-highlight">Show all</button>
+                <button 
+                  className="button button-outline-highlight"
+                  onClick={() => setShowAll((prev) => !prev)}
+                >
+                  {showAll ? "Show less" : "Show all"}
+                </button>
               </div>
             </div>
           </div>

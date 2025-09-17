@@ -1378,10 +1378,22 @@ body .layout-default
   margin-bottom: 15px;
 }
 
-.box-tour-info .inner-content
+/* .box-tour-info .inner-content
 {
   height: 250px;
   overflow: hidden;
+} */
+
+.inner-content.collapsed 
+{
+  height: 250px;
+  overflow: hidden;
+}
+
+.inner-content.expanded 
+{
+  height: auto;
+  overflow: visible;
 }
 
 .box-tour-info.expand .inner-content
