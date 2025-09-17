@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { displayOptionsTree } from "../../helpers/categoryHierarchy.helper";
-import { getCategoriesTree } from "../../services/categoryService";
+import { getAllCategories, getCategoriesTree } from "../../services/categoryService";
 
 // --- Tinymce
 import React, { useEffect, useRef, useState } from 'react';
@@ -42,11 +42,17 @@ const ProductCreate = () => {
 
   // ----- Get Categories Tree ----- //
   useEffect(() => {
-    const fetchAPI = async () => {
-      const dataFromBE = await getCategoriesTree();
+    // const fetchAPI = async () => {
+    //   const dataFromBE = await getCategoriesTree();
 
-      if(dataFromBE.code == 200) {
-        setCategoryTree(dataFromBE.data);
+    //   if(dataFromBE.code == 200) {
+    //     setCategoryTree(dataFromBE.data);
+    //   }
+    // }
+    const fetchAPI = async () => {
+      const dataFromBE = await getAllCategories();
+      if(dataFromBE.success === true) {
+        setCategoryTree(dataFromBE.data.content);
       }
     }
 
@@ -61,30 +67,39 @@ const ProductCreate = () => {
   
     const name = event.target.name.value;
     const parent = event.target.parent.value;
-    const position = event.target.position.value;
     const price = event.target.price.value;
     const stock = event.target.stock.value;
     const isFeatured = event.target.isFeatured.checked;
+    const status = event.target.status.value;
   
     let description = "";
     if (editorRef.current) {
       description = editorRef.current.getContent();
     }
+
+    const dataSubmit = {
+      name: name,
+      categoryId: parent,
+      price: price,
+      stock: stock,
+      isFeatured: isFeatured,
+      status: status,
+      description: description
+    };
   
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("categoryIds", parent);
-    formData.append("position", position);
-    formData.append("price", price);
-    formData.append("stock", stock);
-    formData.append("isFeatured", isFeatured);
-    formData.append("description", description);
+    // const formData = new FormData();
+    // formData.append("name", name);
+    // formData.append("categoryId", parent);
+    // formData.append("price", price);
+    // formData.append("stock", stock);
+    // formData.append("isFeatured", isFeatured);
+    // formData.append("description", description);
 
 
-    // console.log(currentFiles);
-    currentFiles.forEach(fileItem => {
-      formData.append("images", fileItem.file);
-    });
+    // // console.log(currentFiles);
+    // currentFiles.forEach(fileItem => {
+    //   formData.append("images", fileItem.file);
+    // });
   
 
     Swal.fire({
@@ -110,15 +125,31 @@ const ProductCreate = () => {
   
 
         // const dataFromBE = await createProduct(formData);
-        const response = await fetch(`http://localhost:8080/admin333/products`, {
+        const response = await fetch(`http://localhost:8080/api/v1/products`, {
           method: "POST",
-          body: formData,
-          credentials: "include"
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "include", // allow cookies to be set and sent with requests
+          body: JSON.stringify(dataSubmit)
         });
 
         const dataFromBE = await response.json();
   
-        if(dataFromBE.code == 201) {
+        if(dataFromBE.success == true) {
+          const productId = dataFromBE.data.id;
+
+          for(const fileItem of currentFiles) {
+            const formData = new FormData();
+            formData.append("file", fileItem.file);
+
+            await fetch(`http://localhost:8080/api/v1/products/${productId}/images`, {
+              method: "POST",
+              body: formData,
+              credentials: "include"
+            });
+          }
+
           await Swal.fire({
             title: "Create successfully!",
             text: "Your product has been saved.",
@@ -216,15 +247,6 @@ const ProductCreate = () => {
           )}
 
           <div className="inner-group">
-            <label htmlFor="position" className="inner-label">Position</label>
-            <input 
-              type="number" 
-              id="position" 
-              name="position" 
-            />
-          </div>
-
-          <div className="inner-group">
             <label htmlFor="price" className="inner-label">Price</label>
             <input 
               type="number" 
@@ -264,6 +286,33 @@ const ProductCreate = () => {
               name="isFeatured"
               defaultChecked={false}
             />
+          </div>
+
+          <div>
+            <div className="inner-two-columns" style={{ marginBottom: "5px" }}>Status</div>
+            <div className="inner-group">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input 
+                  type="radio" 
+                  name="status" 
+                  value="ACTIVE" 
+                  id="option_active" 
+                  defaultChecked 
+                  style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
+                />
+                <label htmlFor="option_active" className="inner-label" style={{ margin: "0" }}>Active</label>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", marginTop: "3px" }}>
+                <input 
+                  type="radio" 
+                  name="status" 
+                  value="INACTIVE" 
+                  id="option_inactive" 
+                  style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
+                /> 
+                <label htmlFor="option_inactive" className="inner-label" style={{ margin: "0" }}>Inactive</label>
+              </div>
+            </div>
           </div>
 
           <div className="inner-group inner-two-columns">
