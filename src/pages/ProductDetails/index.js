@@ -104,7 +104,7 @@ const ProductDetails = () => {
                     </div>
                   </div>
                   <div className="inner-number">
-                    <span>500</span> ratings
+                    <span>{product.ratingCount}</span> ratings
                   </div>
                 </div>
               </div>
