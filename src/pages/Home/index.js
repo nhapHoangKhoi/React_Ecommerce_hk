@@ -20,28 +20,22 @@ const Home = () => {
   const params = new URLSearchParams(location.search);
   const pageFromURL = parseInt(params.get("page") || "1");
 
-  // useEffect(() => {
-  //   const fetchFeaturedProducts = async () => {
-  //     const [featuredRes] = await Promise.all([
-  //       // fetch("http://localhost:8080/api/client/products/featured"),
-  //     ]);
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      const response = await fetch(`http://localhost:8080/api/v1/products?featured=${true}`);
+      const data = await response.json();
+      if(data.success === true) {
+        setFeaturedProducts(data.data.content);
+      }
+    };
 
-  //     if (!featuredRes.ok) {
-  //       throw new Error("Failed to fetch products");
-  //     }
-
-  //     const featuredData = await featuredRes.json();
-  //     setFeaturedProducts(featuredData.data);
-  //   };
-
-  //   fetchFeaturedProducts();
-  // }, []);
+    fetchFeaturedProducts();
+  }, []);
 
   useEffect(() => {
     const fetchAPI = async () => {
       const data = await getAllProductsClient("", pageFromURL);
-      // console.log(data);
-      if(data.success == true) {
+      if(data.success === true) {
         setListProducts(data.data.content);
         setTotalPages(data.data.totalPages);
       }
