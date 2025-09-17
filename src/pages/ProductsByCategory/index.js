@@ -43,7 +43,7 @@ const ProductsByCategory = () => {
       {products && (
         <div className="tour-domestic">
           <div className="container">
-            <h2 className="text-xl font-bold my-4">Category: {products[0].category.name}</h2>
+            <h2 className="text-xl font-bold my-4">Category: {products[0]?.category.name}</h2>
             <div className="inner-wrap">
               {products.map((item) => (
                 <ProductItem key={item.id} item={item} />
