@@ -18,21 +18,25 @@ const PrivateRoutes = () => {
         //   method: "GET",
         //   credentials: "include"
         // });
-        const res = await fetch(`http://localhost:8080/api/v1/users/me`, {
+        const respsonse = await fetch(`http://localhost:8080/api/v1/users/me`, {
           method: "GET",
           credentials: "include"
         });
+        const data = await respsonse.json();
 
-        if(res.ok) {
-          const data = await res.json();
-          // console.log("Verified account:", data);
+        if(data.success === true) {
+          const isAdmin = data.data.roles?.some(
+            role => role.roleName === "ROLE_ADMIN"
+          );
 
-          dispatch(checkAuthen(true));
-          setVerified(true);
-        } 
-        else {
-          dispatch(checkAuthen(false));
-          setVerified(false);
+          if(isAdmin) {
+            dispatch(checkAuthen(true));
+            setVerified(true);
+          } 
+          else {
+            dispatch(checkAuthen(false));
+            setVerified(false);
+          }
         }
       } 
       catch (err) {
