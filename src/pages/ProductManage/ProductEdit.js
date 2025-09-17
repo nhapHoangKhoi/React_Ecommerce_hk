@@ -86,6 +86,7 @@ const ProductEdit = () => {
 
       setDefaultImageUrls(data.data.productImages || []);
 
+      // preload into FilePond
       if(data.data.productImages) {
         setFiles(
           data.data.productImages.map((object) => {
@@ -111,7 +112,7 @@ const ProductEdit = () => {
 
 
   // ----- Handle submit form ----- //
-  const handleSubmit = async (event, currFiles) => {
+  const handleSubmit = async (event, currentFiles) => {
     event.preventDefault();
 
     const name = event.target.name.value;
@@ -135,59 +136,6 @@ const ProductEdit = () => {
       status: status,
       description: description
     };
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("categoryIds", parent);
-    // formData.append("position", position);
-    formData.append("price", price);
-    formData.append("stock", stock);
-    formData.append("isFeatured", isFeatured);
-    formData.append("description", description);
-
-
-    // Process FilePond files
-    const currentFiles = currFiles;
-    const currentFileNames = currentFiles
-      .filter(f => f.file) // only real files
-      .map(f => f.file.name);
-
-    // console.log(name);
-    // console.log(parent);
-    // console.log(position);
-    // console.log(currentFiles);
-
-    let shouldUpload = false;
-
-    // Check count mismatch
-    if (currentFileNames.length !== (defaultImageUrls?.length || 0)) {
-      shouldUpload = true;
-    } 
-    else {
-      // Check for any file not matching existing URLs
-      for (let name of currentFileNames) {
-        const matched = defaultImageUrls.some(url => url.includes(name));
-        if (!matched) {
-          shouldUpload = true;
-          break;
-        }
-      }
-    }
-
-    // Append new files only if needed
-    if (shouldUpload) {
-      currentFiles.forEach(fileItem => {
-        console.log("Chay vao day 1: ")
-        formData.append("images", fileItem.file);
-      });
-    } 
-    else {
-      // No change, preserve old image URLs
-      defaultImageUrls.forEach(url => {
-        console.log("Chay vao day 2:")
-        formData.append("existingImageUrls", url);
-      });
-    }
 
     Swal.fire({
       title: "Save changes?",
@@ -219,7 +167,36 @@ const ProductEdit = () => {
 
         const dataFromBE = await response.json();
 
-        if(dataFromBE.success == true) {
+        if(dataFromBE.success === true) {
+          // Detect changes in images
+          const current = currentFiles; // FilePond current state
+
+          // a) Find removed images
+          const removed = defaultImageUrls.filter(
+            (img) => !current.some((f) => f.source === img.id) // not in current FilePond
+          );
+
+          for(let r of removed) {
+            await fetch(`http://localhost:8080/api/v1/products/images/${r.id}`, {
+              method: "DELETE",
+              credentials: "include",
+            });
+          }
+
+          // b) Find new files
+          const added = current.filter((f) => f.file); // only actual File objects
+
+          for(let a of added) {
+            const formData = new FormData();
+            formData.append("file", a.file);
+
+            await fetch(`http://localhost:8080/api/v1/products/${id}/images`, {
+              method: "POST",
+              body: formData,
+              credentials: "include",
+            });
+          }
+          
           await Swal.fire({
             title: "Updated successfully!",
             text: "Product has been updated.",
