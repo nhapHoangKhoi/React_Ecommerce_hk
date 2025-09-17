@@ -8,6 +8,12 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
+  const [theUser, setTheUser] = useState(null);
+
+  // rating form state
+  const [ratingValue, setRatingValue] = useState(0);
+  const [comment, setComment] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,6 +35,62 @@ const ProductDetails = () => {
 
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/users/me", {
+          method: "GET",
+          credentials: "include"
+        });
+        const data = await response.json();
+
+        if(data.success === true) {
+          setTheUser(data.data);
+        }
+      } 
+      catch (error) {
+        setTheUser(null);
+      }
+    };
+
+    fetchLoggedInUser();
+  }, []);
+
+  const handleSubmitRating = async () => {
+    if(!ratingValue) {
+      alert("Please select a rating.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/ratings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          ratingValue,
+          comment: "",
+          userId: theUser.id,
+          productId: product.id,
+        }),
+      });
+
+      const data = await response.json();
+      if(data.success === true) {
+        alert("Thanks for your rating!");
+        setRatingValue(0);
+        setComment("");
+      }
+    } 
+    catch (error) {
+      console.error("Rating error:", error);
+      alert("Error submitting rating");
+    } 
+    finally {
+      setSubmitting(false);
+    }
+  };
 
   if(loading) {
     return <div>Loading...</div>;
@@ -98,53 +160,89 @@ const ProductDetails = () => {
 
           {/* RIGHT SIDE */}
           <div className="inner-right">
-            <div className="box-tour-detail">
-              <div className="inner-title-main">{product.name}</div>
-              <div className="inner-product">
-                {product.productImages?.length > 0 ? (
-                  <div className="inner-image">
-                    <img
-                      src={product.productImages[0].imageUrl}
-                      alt={product.name}
-                    />
-                  </div>
-                ) : (
-                  <div className="inner-image">
-                    <img src={null} alt={product.name} />
-                  </div>
-                )}
-                <div className="inner-info">
-                  <div className="inner-rating">
-                    <div className="inner-stars">
-                      {/* <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar /> */}
-                      {renderStars(product.avgRating)}
+            <div className="sticky-wrapper">
+              <div className="box-tour-detail">
+                <div className="inner-title-main">{product.name}</div>
+                <div className="inner-product">
+                  {product.productImages?.length > 0 ? (
+                    <div className="inner-image">
+                      <img
+                        src={product.productImages[0].imageUrl}
+                        alt={product.name}
+                      />
+                    </div>
+                  ) : (
+                    <div className="inner-image">
+                      <img src={null} alt={product.name} />
+                    </div>
+                  )}
+                  <div className="inner-info">
+                    <div className="inner-rating">
+                      <div className="inner-stars">
+                        {/* <FaStar />
+                        <FaStar />
+                        <FaStar />
+                        <FaStar />
+                        <FaStar /> */}
+                        {renderStars(product.avgRating)}
+                      </div>
+                    </div>
+                    <div className="inner-number">
+                      <span>{product.ratingCount}</span> ratings
                     </div>
                   </div>
-                  <div className="inner-number">
-                    <span>{product.ratingCount}</span> ratings
+                </div>
+                <div className="inner-meta">
+                  <div className="inner-item">
+                    <span>Price: </span>
+                    <span className="inner-highlight">{product.price.toLocaleString("en-US")}$</span>
+                  </div>
+                  <div className="inner-item">
+                    <span>Available: </span>
+                    <span className="inner-highlight">{product.stock}</span>
                   </div>
                 </div>
-              </div>
-              <div className="inner-meta">
-                <div className="inner-item">
-                  <span>Price: </span>
-                  <span className="inner-highlight">{product.price.toLocaleString("en-US")}$</span>
-                </div>
-                <div className="inner-item">
-                  <span>Available: </span>
-                  <span className="inner-highlight">{product.stock}</span>
-                </div>
-              </div>
-              <div className="inner-form">
-                <div className="button button-highlight inner-button-add-cart">
-                  Add To Cart
+                <div className="inner-form">
+                  <div className="button button-highlight inner-button-add-cart">
+                    Add To Cart
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* --- Rating Box --- */}
+            {theUser ? (
+              <div className="rating-box">
+                <h3 className="rating-title">Rate this product</h3>
+                <div className="rating-stars">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <FaStar
+                      key={star}
+                      className={`star-icon ${star <= ratingValue ? "active" : ""}`}
+                      onClick={() => setRatingValue(star)}
+                    />
+                  ))}
+                </div>
+                {/* <textarea
+                  className="rating-comment"
+                  rows="3"
+                  placeholder="Leave a comment (optional)"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                /> */}
+                <button
+                  className="button button-highlight inner-button-add-cart"
+                  onClick={handleSubmitRating}
+                  disabled={submitting}
+                >
+                  {submitting ? "Submitting..." : "Submit Rating"}
+                </button>
+              </div>
+            ) : (
+              <p className="login-prompt">
+                <a href="/login">Log in</a> to rate this product.
+              </p>
+            )}
           </div>
         </div>
       </div>

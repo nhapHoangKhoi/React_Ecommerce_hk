@@ -1163,6 +1163,10 @@ body .layout-default
 .layout-default .section-ten .inner-right
 {
   width: calc(42% - 20px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 
@@ -1445,6 +1449,11 @@ body .layout-default
 
 
 /* box-tour-detail */
+
+.sticky-wrapper {
+  position: relative;
+  height: fit-content; /* wrapper respects child height */
+}
 
 .box-tour-detail
 {
@@ -1768,3 +1777,66 @@ body .layout-default
 }
 
 /* End box-tour-detail */
+
+
+.rating-box {
+  box-shadow: 0px 1.75px 3.51px 0px #0000001F;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 24px 24px;
+}
+
+.rating-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.star-icon {
+  width: 24px;
+  height: 24px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.star-icon.active {
+  color: #f5b301; /* yellow when active */
+}
+
+.rating-comment {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.rating-submit {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rating-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-prompt {
+  margin-top: 20px;
+  color: #555;
+}
+.login-prompt a {
+  color: #007bff;
+  text-decoration: underline;
+}
