@@ -7,7 +7,7 @@ const ProductItem = (props) => {
     <>
       <div className="product-item">
         <div className="inner-image">
-          <Link to={`/product/detail/${item.id}`}>
+          <Link to={`/products/detail/${item.id}`}>
             {item.productImages?.length > 0 ? (
               <img src={item.productImages[0].imageUrl} alt={item.name} />
             ) : (
@@ -18,7 +18,7 @@ const ProductItem = (props) => {
 
         <div className="inner-content">
           <div className="inner-title">
-            <Link to={`/product/detail/${item.id}`}>{item.name}</Link>
+            <Link to={`/products/detail/${item.id}`}>{item.name}</Link>
           </div>
 
           <div className="inner-price">
