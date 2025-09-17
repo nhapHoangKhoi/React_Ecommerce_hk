@@ -72,40 +72,39 @@ const ProductEdit = () => {
 
 
   // ----- Fetch product detail ----- //
-  useEffect(() => {
-    const fetchProduct = async () => {
-      const response = await fetch(`http://localhost:8080/api/v1/products/${id}`, {
-        credentials: "include"
-      });
-      const data = await response.json();
+  const fetchProduct = async () => {
+    const response = await fetch(`http://localhost:8080/api/v1/products/${id}`, {
+      credentials: "include"
+    });
+    const data = await response.json();
 
-      if(data.success === true) 
-      {
-        setProductDetail(data.data);
-        
-        setDefaultIsFeatured(data.data.featured);
+    if(data.success === true) 
+    {
+      setProductDetail(data.data);
+      
+      setDefaultIsFeatured(data.data.featured);
 
-        setDefaultImageUrls(data.data.productImages || []);
+      setDefaultImageUrls(data.data.productImages || []);
 
-        if(data.data.productImages) {
-          setFiles(
-            data.data.productImages.map((object) => {
-              const url = object.imageUrl;
-              return {
-                source: url,
-                options: {
-                  type: 'remote', // use the image URL directly, without expecting a Blob or File object
-                },
-              };
-            })
-          );
-        }
-
-        
-        setSelectedCategory(data.data.category?.id || ""); 
+      if(data.data.productImages) {
+        setFiles(
+          data.data.productImages.map((object) => {
+            const url = object.imageUrl;
+            return {
+              source: url,
+              options: {
+                type: 'remote', // use the image URL directly, without expecting a Blob or File object
+              },
+            };
+          })
+        );
       }
-    };
-    
+      
+      setSelectedCategory(data.data.category?.id || ""); 
+    }
+  };
+
+  useEffect(() => {
     fetchProduct();
   }, [id]);
   // ----- End fetch product detail ----- //
@@ -226,7 +225,8 @@ const ProductEdit = () => {
             text: "Product has been updated.",
             icon: "success"
           });
-          navigate(`/${variables.pathAdmin}/products`);
+          
+          fetchProduct(); // refresh updated data
         }
       }
     });
@@ -369,34 +369,37 @@ const ProductEdit = () => {
               />
             </div>
 
-            <div>
-              <div className="inner-two-columns" style={{ marginBottom: "5px" }}>
-                Status <span className="field-required">*</span>
-              </div>
-              <div className="inner-group">
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <input 
-                    type="radio" 
-                    name="status" 
-                    value="ACTIVE" 
-                    id="option_active" 
-                    defaultChecked 
-                    style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
-                  />
-                  <label htmlFor="option_active" className="inner-label" style={{ margin: "0" }}>Active</label>
+            {productDetail.status && (
+              <div>
+                <div className="inner-two-columns" style={{ marginBottom: "5px" }}>
+                  Status <span className="field-required">*</span>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", marginTop: "3px" }}>
-                  <input 
-                    type="radio" 
-                    name="status" 
-                    value="INACTIVE" 
-                    id="option_inactive" 
-                    style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
-                  /> 
-                  <label htmlFor="option_inactive" className="inner-label" style={{ margin: "0" }}>Inactive</label>
+                <div className="inner-group">
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input 
+                      type="radio" 
+                      name="status" 
+                      value="ACTIVE" 
+                      id="option_active" 
+                      defaultChecked={productDetail.status === "ACTIVE" ? true : false}
+                      style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
+                    />
+                    <label htmlFor="option_active" className="inner-label" style={{ margin: "0" }}>Active</label>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", marginTop: "3px" }}>
+                    <input 
+                      type="radio" 
+                      name="status" 
+                      value="INACTIVE" 
+                      id="option_inactive" 
+                      defaultChecked={productDetail.status === "INACTIVE" ? true : false}
+                      style={{ width: "14px", height: "14px", margin: "0 6px 0 0" }}
+                    /> 
+                    <label htmlFor="option_inactive" className="inner-label" style={{ margin: "0" }}>Inactive</label>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <div className="inner-group inner-two-columns">
               <label htmlFor="description" className="inner-label">
