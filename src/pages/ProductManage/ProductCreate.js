@@ -86,21 +86,6 @@ const ProductCreate = () => {
       status: status,
       description: description
     };
-  
-    // const formData = new FormData();
-    // formData.append("name", name);
-    // formData.append("categoryId", parent);
-    // formData.append("price", price);
-    // formData.append("stock", stock);
-    // formData.append("isFeatured", isFeatured);
-    // formData.append("description", description);
-
-
-    // // console.log(currentFiles);
-    // currentFiles.forEach(fileItem => {
-    //   formData.append("images", fileItem.file);
-    // });
-  
 
     Swal.fire({
       title: "Keep creating?",
@@ -181,6 +166,12 @@ const ProductCreate = () => {
           errorMessage: 'Please enter product name!'
         }
       ])
+      .addField('#parent', [
+        {
+          rule: 'required',
+          errorMessage: 'Please choose a category!'
+        }
+      ])
       .addField('#price', [
         {
           rule: 'minNumber',
@@ -235,7 +226,9 @@ const ProductCreate = () => {
 
           {categoryTree && (
             <div className="inner-group">
-              <label htmlFor="parent" className="inner-label">Category</label>
+              <label htmlFor="parent" className="inner-label">
+                Category <span className="field-required">*</span>
+              </label>
               <select 
                 id="parent" 
                 name="parent" 
@@ -247,7 +240,9 @@ const ProductCreate = () => {
           )}
 
           <div className="inner-group">
-            <label htmlFor="price" className="inner-label">Price</label>
+            <label htmlFor="price" className="inner-label">
+              Price <span className="field-required">*</span>
+            </label>
             <input 
               type="number" 
               id="price" 
@@ -289,7 +284,9 @@ const ProductCreate = () => {
           </div>
 
           <div>
-            <div className="inner-two-columns" style={{ marginBottom: "5px" }}>Status</div>
+            <div className="inner-two-columns" style={{ marginBottom: "5px" }}>
+              Status <span className="field-required">*</span>
+            </div>
             <div className="inner-group">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <input 
