@@ -102,14 +102,20 @@ const ProductDetails = () => {
                   </div>
                 </div>
               </div>
-              <div className="inner-category">
-                Category: <strong>{product.category?.name}</strong>
+              <div className="inner-meta">
+                <div className="inner-item">
+                  <span>Price: </span>
+                  <span className="inner-highlight">{product.price.toLocaleString("en-US")}$</span>
+                </div>
+                <div className="inner-item">
+                  <span>Available: </span>
+                  <span className="inner-highlight">{product.stock}</span>
+                </div>
               </div>
-              <div className="inner-price">
-                Price: <strong>{product.price.toLocaleString("en-US")}$</strong>
-              </div>
-              <div className="inner-stock">
-                Quantity: <strong>{product.stock}</strong>
+              <div className="inner-form">
+                <div className="button button-highlight inner-button-add-cart">
+                  Add To Cart
+                </div>
               </div>
             </div>
           </div>
