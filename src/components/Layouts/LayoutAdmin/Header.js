@@ -37,7 +37,7 @@ const Header = () => {
             </div>
             <div className="inner-text">
               <div className="inner-name">Le Van A</div>
-              <div className="inner-role">Quan tri vien</div>
+              <div className="inner-role">Administrator</div>
             </div>
           </div>
         </div>
