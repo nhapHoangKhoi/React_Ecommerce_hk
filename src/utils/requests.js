@@ -1,4 +1,5 @@
-const SERVER = "http://localhost:8080";
+// const SERVER = "http://localhost:8080";
+const SERVER = `${process.env.REACT_APP_BACKEND_URL}`;
 
 export const get = async (path) => {
   const response = await fetch((SERVER + path), {

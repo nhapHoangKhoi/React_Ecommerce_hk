@@ -110,7 +110,7 @@ const ProductCreate = () => {
   
 
         // const dataFromBE = await createProduct(formData);
-        const response = await fetch(`http://localhost:8080/api/v1/products`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -128,7 +128,7 @@ const ProductCreate = () => {
             const formData = new FormData();
             formData.append("file", fileItem.file);
 
-            await fetch(`http://localhost:8080/api/v1/products/${productId}/images`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products/${productId}/images`, {
               method: "POST",
               body: formData,
               credentials: "include"

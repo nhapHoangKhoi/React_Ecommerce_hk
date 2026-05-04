@@ -18,7 +18,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/products/${id}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products/${id}`);
         const data = await response.json();
 
         if(data.success === true) {
@@ -39,7 +39,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchLoggedInUser = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/v1/users/me", {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/me`, {
           method: "GET",
           credentials: "include"
         });
@@ -64,7 +64,7 @@ const ProductDetails = () => {
     }
     setSubmitting(true);
     try {
-      const response = await fetch("http://localhost:8080/api/v1/ratings", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/ratings`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -18,7 +18,7 @@ const PrivateRoutes = () => {
         //   method: "GET",
         //   credentials: "include"
         // });
-        const respsonse = await fetch(`http://localhost:8080/api/v1/users/me`, {
+        const respsonse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/me`, {
           method: "GET",
           credentials: "include"
         });

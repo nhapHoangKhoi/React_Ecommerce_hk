@@ -135,12 +135,12 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="inner-more">
+        {/* <div className="inner-more">
           <span>Don't have an account?</span>
           <Link to={`/${variables.pathAdmin}/account/register`}>
             Create an account
           </Link>
-        </div>
+        </div> */}
       </div>
     </>
   );

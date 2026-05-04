@@ -19,7 +19,7 @@ const ProductsByCategory = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch(
-        `http://localhost:8080/api/v1/products?categoryId=${categoryId}&page=${pageFromURL}&limit=${limit}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/products?categoryId=${categoryId}&page=${pageFromURL}&limit=${limit}`
       );
       const data = await response.json();
       if(data.success === true) {

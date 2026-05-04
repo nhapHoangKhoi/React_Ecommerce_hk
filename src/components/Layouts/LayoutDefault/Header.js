@@ -25,7 +25,7 @@ const Header = () => {
   useEffect(() => {
     const fetchLoggedInUser = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/v1/users/me", {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/me`, {
           method: "GET",
           credentials: "include"
         });

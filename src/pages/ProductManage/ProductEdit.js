@@ -73,7 +73,7 @@ const ProductEdit = () => {
 
   // ----- Fetch product detail ----- //
   const fetchProduct = async () => {
-    const response = await fetch(`http://localhost:8080/api/v1/products/${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products/${id}`, {
       credentials: "include"
     });
     const data = await response.json();
@@ -156,7 +156,7 @@ const ProductEdit = () => {
           }
         });
 
-        const response = await fetch(`http://localhost:8080/api/v1/products/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
@@ -177,7 +177,7 @@ const ProductEdit = () => {
           );
 
           for(let r of removed) {
-            await fetch(`http://localhost:8080/api/v1/products/images/${r.id}`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products/images/${r.id}`, {
               method: "DELETE",
               credentials: "include",
             });
@@ -190,7 +190,7 @@ const ProductEdit = () => {
             const formData = new FormData();
             formData.append("file", a.file);
 
-            await fetch(`http://localhost:8080/api/v1/products/${id}/images`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products/${id}/images`, {
               method: "POST",
               body: formData,
               credentials: "include",
