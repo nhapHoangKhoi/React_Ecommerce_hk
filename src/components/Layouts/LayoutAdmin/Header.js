@@ -36,7 +36,7 @@ const Header = () => {
               <img src={`/avatar-2.jpg`} alt="Avatar" />
             </div>
             <div className="inner-text">
-              <div className="inner-name">Le Van A</div>
+              <div className="inner-name">Le Van B</div>
               <div className="inner-role">Administrator</div>
             </div>
           </div>
