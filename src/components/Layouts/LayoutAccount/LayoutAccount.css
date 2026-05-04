@@ -57,6 +57,11 @@
   color: var(--color-text);
 }
 
+.page-account .form-account .inner-title.admin-account
+{
+  color: #EF3826;
+}
+
 .page-account .form-account .inner-description
 {
   margin-top: 0;

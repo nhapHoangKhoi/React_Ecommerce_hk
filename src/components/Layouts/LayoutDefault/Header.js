@@ -4,6 +4,7 @@ import CategoryMenu from "../../CategoryMenu/CategoryMenu";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllCategories } from "../../../services/categoryService";
 import { logoutAccount } from "../../../services/accountAdminService";
+import variables from "../../../config/variables";
 
 const Header = () => {
   const [categoryTree, setCategoryTree] = useState([]);
@@ -109,20 +110,27 @@ const Header = () => {
                     <li>
                       <Link to="/login">Login</Link>
                     </li>
-                    <li>
-                      <Link to="/user/register">Sign up</Link>
-                    </li>
                   </>
                 )}
               </ul>
               <div className="inner-overlay"></div>
             </nav>
-            <div className="inner-cart">
-              <a href="#">
-                <img src="/icon-cart.svg" alt="Cart" />
-                <span>1</span>
-              </a>
-            </div>
+
+            <nav className="inner-menu menu-sider">
+              <ul>
+                <li className="admin-button">
+                  <Link  to={`/${variables.pathAdmin}/account/login`}>
+                    Go To Admin
+                  </Link>
+                </li>
+                <li className="inner-cart">
+                  <a href="#">
+                    <img src="/icon-cart.svg" alt="Cart" />
+                    <span>1</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
           <button className="inner-menu-mobile-button-cancel">
             <i className="fa-solid fa-xmark"></i>

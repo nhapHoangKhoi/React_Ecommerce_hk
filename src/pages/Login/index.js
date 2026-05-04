@@ -91,7 +91,7 @@ const Login = () => {
   return (
     <>
       <div className="form-account">
-        <h2 className="inner-title">Login</h2>
+        <h2 className="inner-title admin-account">Login Admin Account</h2>
         <p className="inner-description">
           Enter your email and password to continue
         </p>
@@ -110,7 +110,7 @@ const Login = () => {
               type="email"
               name="email"
               id="email"
-              placeholder="Example: levana@gmail.com"
+              placeholder="Sample email: levanb@gmail.com"
             />
           </div>
 
@@ -123,6 +123,7 @@ const Login = () => {
               type={hidePassword ? "password" : "text"} 
               name="password"
               id="password"
+              placeholder="Sample password: levanb123@"
             />
             <div className="password-icon" onClick={handleClickPasswordIcon}>
               {hidePassword ? <FaRegEyeSlash /> : <FaRegEye />}
