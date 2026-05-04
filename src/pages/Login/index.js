@@ -123,7 +123,7 @@ const Login = () => {
               type={hidePassword ? "password" : "text"} 
               name="password"
               id="password"
-              placeholder="Sample password: levanb123@"
+              placeholder="Sample password: Levanb123!"
             />
             <div className="password-icon" onClick={handleClickPasswordIcon}>
               {hidePassword ? <FaRegEyeSlash /> : <FaRegEye />}
