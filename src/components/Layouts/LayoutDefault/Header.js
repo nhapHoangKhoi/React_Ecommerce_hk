@@ -92,7 +92,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <CategoryMenu categories={categoryTree} />
-                {theUser ? (
+                {/* {theUser ? (
                   <>
                     <li>
                       <Link onClick={handleLogout}>
@@ -111,7 +111,7 @@ const Header = () => {
                       <Link to="/login">Login</Link>
                     </li>
                   </>
-                )}
+                )} */}
               </ul>
               <div className="inner-overlay"></div>
             </nav>
